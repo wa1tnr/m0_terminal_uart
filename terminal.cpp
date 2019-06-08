@@ -55,10 +55,27 @@ void seriAvail() {
   }
 }
 
+void local_echo(void) {
+  // Serial.print("DEBUG aa");
+  if ( (ch != '\n') ||
+     (ch != '\r') )
+    {
+      Serial.print(ch);     // TODO: only if 'echo ON'
+    }
+  // if (ch == '\n')     Serial.print("  NEWLINE  \r\n\r\n");
+  if (ch == '\n')     Serial.print("\r");
+  // if (ch == '\r') Serial.print("\r\n                              RETURN   \r\n\r\n"); // way over
+  if (ch == '\r') Serial.print("\n"); // way over
+}
+
 byte reading() {
   if (!Serial.available()) return 1;
   ch = Serial.read();   // local keystroke is read
   delay(3);
+  local_echo();         // echo that character, locally // KLUDGE
+
+  // translate return to newline only just before sending out the UART:
+  if (ch == '\r') ch = '\n'; // Control M becomes Control J - for convenience of human (REMAP KEYSTROKE)
   SERIAL.print(ch);     // immediately send it out the UART port
   seriAvail();
   // seriAvail();
@@ -71,7 +88,6 @@ void readword() {
 /* Arduino main loop */
 
 void setup() {
-  SERIAL.begin(38400); // TX/RX pair
   Serial.begin(38400); // USB
 
   /*
@@ -82,6 +98,8 @@ void setup() {
   }
 
   Serial.println ("terminal - based on the Forth-like interpreter");
+  delay(100);
+  SERIAL.begin(38400); // TX/RX pair
 }
 
 void loop() {
