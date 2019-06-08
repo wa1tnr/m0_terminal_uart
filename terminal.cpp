@@ -1,4 +1,4 @@
-
+// Sat Jun  8 00:38:57 UTC 2019
 
 #include <Arduino.h>
 // #include "compatibility.h"
@@ -57,15 +57,13 @@ void seriAvail() {
 
 void local_echo(void) {
   // Serial.print("DEBUG aa");
-  if ( (ch != '\n') ||
-     (ch != '\r') )
-    {
-      Serial.print(ch);     // TODO: only if 'echo ON'
-    }
-  // if (ch == '\n')     Serial.print("  NEWLINE  \r\n\r\n");
+  if (ch == '\n') { Serial.print(' '); return; }
+  if (ch == '\r') { Serial.print(' '); return; }
+  Serial.print(ch);     // TODO: only if 'echo ON'
+/*
   if (ch == '\n')     Serial.print("\r");
-  // if (ch == '\r') Serial.print("\r\n                              RETURN   \r\n\r\n"); // way over
   if (ch == '\r') Serial.print("\n"); // way over
+*/
 }
 
 byte reading() {
