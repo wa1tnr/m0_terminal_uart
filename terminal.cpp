@@ -4,6 +4,7 @@
 // #include "compatibility.h"
 
 extern void blink_m(void);
+extern void setup_dotstar(void); // dotstar.cpp
 
 #define SERIAL Serial1  // the UART is on Serial1
 
@@ -86,6 +87,7 @@ void readword() {
 /* Arduino main loop */
 
 void setup() {
+  setup_dotstar(); // turn off dotstar (apa-102 RGB LED)
   Serial.begin(38400); // USB
 
   /*
