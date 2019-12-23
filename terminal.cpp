@@ -1,4 +1,5 @@
 // Sat Jun  8 00:38:57 UTC 2019
+// jifx
 
 #include <Arduino.h>
 // #include "compatibility.h"
@@ -59,7 +60,8 @@ void local_echo(void) {
   // Serial.print("DEBUG aa");
   if (ch == '\n') { Serial.print(' '); return; }
   if (ch == '\r') { Serial.print(' '); return; }
-  Serial.print(ch);     // TODO: only if 'echo ON'
+  // WAS ENABLED:
+  // Serial.print(ch);     // TODO: only if 'echo ON'
 /*
   if (ch == '\n')     Serial.print("\r");
   if (ch == '\r') Serial.print("\n"); // way over
@@ -73,7 +75,8 @@ byte reading() {
   local_echo();         // echo that character, locally // KLUDGE
 
   // translate return to newline only just before sending out the UART:
-  if (ch == '\r') ch = '\n'; // Control M becomes Control J - for convenience of human (REMAP KEYSTROKE)
+  // WAS ENABLED:
+  // if (ch == '\r') ch = '\n'; // Control M becomes Control J - for convenience of human (REMAP KEYSTROKE)
   SERIAL.print(ch);     // immediately send it out the UART port
   seriAvail();
   // seriAvail();
@@ -97,7 +100,10 @@ void setup() {
 
   Serial.println ("terminal - based on the Forth-like interpreter");
   delay(100);
-  SERIAL.begin(38400); // TX/RX pair
+  // SERIAL.begin(38400); // TX/RX pair
+  // worked well with eForth // SERIAL.begin(115200); // TX/RX pair
+  SERIAL.begin(115200); // TX/RX pair
+  // SERIAL.begin(57600); // assume half clock speed mecrisp // TX/RX pair
 }
 
 void loop() {
