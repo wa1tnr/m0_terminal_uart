@@ -1,4 +1,7 @@
+// Mon Dec 23 13:59:52 UTC 2019 // STM32F405 Express running C.H. Ting's eForth
 // Sat Jun  8 00:38:57 UTC 2019
+// pdxva
+
 // jifx
 
 #include <Arduino.h>
@@ -46,7 +49,7 @@ void printing() {
   }
 }
 
-void seriAvail() {
+void seriAvail() { // may very well be responsible for the eForth bug
   for (int i = 1; i < 1400; i++) {
       if (SERIAL.available()) {
         printing();
@@ -59,7 +62,6 @@ void seriAvail() {
 void local_echo(void) {
   // Serial.print("DEBUG aa");
   if (ch == '\n') { Serial.print(' '); return; }
-  if (ch == '\r') { Serial.print(' '); return; }
   // WAS ENABLED:
   // Serial.print(ch);     // TODO: only if 'echo ON'
 /*
@@ -77,7 +79,27 @@ byte reading() {
   // translate return to newline only just before sending out the UART:
   // WAS ENABLED:
   // if (ch == '\r') ch = '\n'; // Control M becomes Control J - for convenience of human (REMAP KEYSTROKE)
-  SERIAL.print(ch);     // immediately send it out the UART port
+
+  SERIAL.write(ch);     // immediately send it out the UART port
+
+  // prod eForth:
+  if (ch == '\r') {
+    delay(1); // originally '12' not '1' but '1' seems to work. try 12 if unresponsive.
+    Serial.print("");
+    // FINDINGS: more is less - do NOT delay or output will be lost.
+  }
+  // ^^ eForth doesn't like to report, unprodded,
+  //    on most (but not all) words.
+  //    .S is an exception, for example.
+  //    Had suspected eForth itself was
+  //    coded somewhat unintuitively; now
+  //    it seems more likely that serial
+  //    timing is responsible for the 'bug'
+  //    ('failure to complete without an
+  //    '.. additional space/other char
+  //    '.. sent to eForth, after having
+  //    '.. pressed ENTER').
+
   seriAvail();
   // seriAvail();
 }
