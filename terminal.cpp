@@ -4,6 +4,9 @@
 
 // jifx
 
+// #define WEIGHT=1400
+#define WEIGHT 3400
+
 #include <Arduino.h>
 // #include "compatibility.h"
 
@@ -50,7 +53,7 @@ void printing() {
 }
 
 void seriAvail() { // may very well be responsible for the eForth bug
-  for (int i = 1; i < 1400; i++) {
+  for (int i = 1; i < WEIGHT; i++) {
       if (SERIAL.available()) {
         printing();
         delay(1); // makes a huge difference to have this tiny delay
