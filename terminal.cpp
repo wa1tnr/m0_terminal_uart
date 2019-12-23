@@ -1,6 +1,6 @@
 // Mon Dec 23 13:59:52 UTC 2019 // STM32F405 Express running C.H. Ting's eForth
 // Sat Jun  8 00:38:57 UTC 2019
-// pdxva
+// fyndov pdxva
 
 // jifx
 
@@ -11,6 +11,7 @@
 // #include "compatibility.h"
 
 extern void blink_m(void);
+extern void setup_dotstar(void); // dotstar.cpp
 
 #define SERIAL Serial1  // the UART is on Serial1
 
@@ -115,6 +116,7 @@ void readword() {
 
 void setup() {
   Serial.begin(38400); // USB
+  setup_dotstar(); // turn off dotstar (apa-102 RGB LED)
 
   /*
   while (!SERIAL);  // alternate syntax when an empty test is wanted
