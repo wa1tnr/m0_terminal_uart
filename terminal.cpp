@@ -5,6 +5,7 @@
 // jifx
 
 // #define WEIGHT=1400
+// #define WEIGHT 3400
 #define WEIGHT 3400
 
 #include <Arduino.h>
@@ -77,7 +78,7 @@ void local_echo(void) {
 byte reading() {
   if (!Serial.available()) return 1;
   ch = Serial.read();   // local keystroke is read
-  delay(3);
+  // delay(3);
   local_echo();         // echo that character, locally // KLUDGE
 
   // translate return to newline only just before sending out the UART:
@@ -88,7 +89,8 @@ byte reading() {
 
   // prod eForth:
   if (ch == '\r') {
-    delay(1); // originally '12' not '1' but '1' seems to work. try 12 if unresponsive.
+    // HERE HERE 21 MAY
+    delay(24); // originally '12' not '1' but '1' seems to work. try 12 if unresponsive.
     Serial.print("");
     // FINDINGS: more is less - do NOT delay or output will be lost.
   }
