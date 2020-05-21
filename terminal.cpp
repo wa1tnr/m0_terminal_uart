@@ -90,8 +90,20 @@ byte reading() {
   // prod eForth:
   if (ch == '\r') {
     // HERE HERE 21 MAY
+  while (!SERIAL.available()); // new blocking 21 may 2207z
+  // discussion - this infinite while didn't break anything obvious.
+  // seems to resolve the issue nicely.  The delay below (24 atm)
+  // may now be superfluous, and other delays are also now suspect.
+  // even 'WEIGHT' may be suspect.
+
+  // This is big news!
+
     delay(24); // originally '12' not '1' but '1' seems to work. try 12 if unresponsive.
+
+    // discussion: this 'delay(24)' allows an activity on the STM32F407 to complete.
+
     Serial.print("");
+    SERIAL.print(""); // prod eForth maybe
     // FINDINGS: more is less - do NOT delay or output will be lost.
   }
   // ^^ eForth doesn't like to report, unprodded,
