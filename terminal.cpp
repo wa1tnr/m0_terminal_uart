@@ -1,3 +1,20 @@
+Thu May 21 22:31:03 UTC 2020 // STM32F407 Discovery running C.H. Ting's eForth
+// gelron pibulatto
+
+// STATUS: very good responsiveness, except a
+// possible typing feedback latency (slight if even present).
+
+// Today's changes seem to have helped but were done in
+// such a way that tracking which changes were best, was
+// difficult.
+
+// So, some changes may not be necessary or desirable.
+
+// Still, improved behavior .. getting difficult to tell
+// if further improvement can be appreciated or not.
+
+// 21 May 2020, 22:33:55z
+
 // Mon Dec 23 13:59:52 UTC 2019 // STM32F405 Express running C.H. Ting's eForth
 // Sat Jun  8 00:38:57 UTC 2019
 // fyndov pdxva
