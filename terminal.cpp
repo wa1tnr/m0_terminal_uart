@@ -6,7 +6,14 @@
 
 // #define WEIGHT=1400
 // #define WEIGHT 3400
-#define WEIGHT 3400
+// may 21 2221z working with 3400 #define WEIGHT 3400
+// #define WEIGHT 1200
+#define WEIGHT 1800
+// discussion: less than 1200 created input echo blocking stuff.
+// was necessary to space bar flog to get complete feedback,
+// so this WEIGHT must be > 800 or so (probably 1200 or so).
+// NOTE: seems to have an absurd upper bound (tried 9600 and
+// program continued to function about the same).
 
 #include <Arduino.h>
 // #include "compatibility.h"
@@ -58,7 +65,8 @@ void seriAvail() { // may very well be responsible for the eForth bug
   for (int i = 1; i < WEIGHT; i++) {
       if (SERIAL.available()) {
         printing();
-        delay(1); // makes a huge difference to have this tiny delay
+        if (!SERIAL.available()) delay(1);
+        // delay(1); // makes a huge difference to have this tiny delay
         // break;
     }
   }
@@ -98,7 +106,7 @@ byte reading() {
 
   // This is big news!
 
-    delay(24); // originally '12' not '1' but '1' seems to work. try 12 if unresponsive.
+    // delay(24); // originally '12' not '1' but '1' seems to work. try 12 if unresponsive.
 
     // discussion: this 'delay(24)' allows an activity on the STM32F407 to complete.
 
@@ -140,7 +148,7 @@ void setup() {
   }
 
   Serial.println ("terminal - based on the Forth-like interpreter");
-  delay(100);
+  // delay(100);
   // SERIAL.begin(38400); // TX/RX pair
   // worked well with eForth // SERIAL.begin(115200); // TX/RX pair
   SERIAL.begin(115200); // TX/RX pair
