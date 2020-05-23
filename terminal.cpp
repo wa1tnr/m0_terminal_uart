@@ -1,42 +1,16 @@
 // Sat May 23 11:35:50 UTC 2020 // STM32F407 Discovery running C.H. Ting's eForth
 // kabnilip gelron pibulatto
 
-// STATUS: very good responsiveness, except a
-// possible typing feedback latency (slight if even present).
-
-// Today's changes seem to have helped but were done in
-// such a way that tracking which changes were best, was
-// difficult.
-
-// So, some changes may not be necessary or desirable.
-
-// Still, improved behavior .. getting difficult to tell
-// if further improvement can be appreciated or not.
-
-// 21 May 2020, 22:33:55z
-
 // Mon Dec 23 13:59:52 UTC 2019 // STM32F405 Express running C.H. Ting's eForth
 // Sat Jun  8 00:38:57 UTC 2019
 // fyndov pdxva
 
-// jifx
-
-// #define WEIGHT=1400
-// #define WEIGHT 3400
-// may 21 2221z working with 3400 #define WEIGHT 3400
-// #define WEIGHT 1200
-// #define WEIGHT 1800
 // 23 May - seems to address a lot, by adding alot of WEIGHT:
 #define WEIGHT 32760
 
-// discussion: less than 1200 created input echo blocking stuff.
-// was necessary to space bar flog to get complete feedback,
 // so this WEIGHT must be > 800 or so (probably 1200 or so).
-// NOTE: seems to have an absurd upper bound (tried 9600 and
-// program continued to function about the same).
 
 #include <Arduino.h>
-// #include "compatibility.h"
 
 extern void blink_m(void);
 extern void setup_dotstar(void); // dotstar.cpp
@@ -81,7 +55,7 @@ void printing() {
   }
 }
 
-void seriAvail() { // may very well be responsible for the eForth bug
+void seriAvail() {
   for (int i = 1; i < WEIGHT; i++) {
       if (SERIAL.available()) {
         printing();
@@ -91,14 +65,7 @@ void seriAvail() { // may very well be responsible for the eForth bug
 }
 
 void local_echo(void) {
-  // Serial.print("DEBUG aa");
   if (ch == '\n') { Serial.print(' '); return; }
-  // WAS ENABLED:
-  // Serial.print(ch);     // TODO: only if 'echo ON'
-/*
-  if (ch == '\n')     Serial.print("\r");
-  if (ch == '\r') Serial.print("\n"); // way over
-*/
 }
 
 byte reading() {
@@ -106,18 +73,13 @@ byte reading() {
   ch = Serial.read();   // local keystroke is read
   local_echo();         // echo that character, locally // KLUDGE
 
-  // translate return to newline only just before sending out the UART:
-  // WAS ENABLED:
-  // if (ch == '\r') ch = '\n'; // Control M becomes Control J - for convenience of human (REMAP KEYSTROKE)
-
   SERIAL.write(ch);     // immediately send it out the UART port
 
-  // prod eForth:
   if (ch == '\r') {
   while (!SERIAL.available());
 
     Serial.print("");
-    SERIAL.print(""); // prod eForth maybe
+    SERIAL.print("");
   }
 
   // ^^ eForth doesn't like to report, unprodded,
@@ -133,7 +95,6 @@ byte reading() {
   //    '.. pressed ENTER').
 
   seriAvail();
-  // seriAvail();
 }
 
 void readword() {
@@ -146,18 +107,12 @@ void setup() {
   Serial.begin(38400); // USB
   setup_dotstar(); // turn off dotstar (apa-102 RGB LED)
 
-  /*
-  while (!SERIAL);  // alternate syntax when an empty test is wanted
-  */
   while (!Serial) {
     blink_m();
   }
 
   Serial.println ("terminal - based on the Forth-like interpreter");
-  // SERIAL.begin(38400); // TX/RX pair
-  // worked well with eForth // SERIAL.begin(115200); // TX/RX pair
   SERIAL.begin(115200); // TX/RX pair
-  // SERIAL.begin(57600); // assume half clock speed mecrisp // TX/RX pair
 }
 
 void loop() {
