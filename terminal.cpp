@@ -15,7 +15,7 @@
 extern void blink_m(void);
 extern void setup_dotstar(void); // dotstar.cpp
 
-#define SERIAL Serial1  // the UART is on Serial1
+#define USART_local Serial1  // the UART is on Serial1
 
 const int STKSIZE = 8;
 const int STKMASK = 7;
@@ -44,22 +44,22 @@ int pop() {
 }
 
 void throw_() {
-  SERIAL.print("\r\n        THROW:  -1 \r\n");
+  USART_local.print("\r\n        THROW:  -1 \r\n");
 }
 
 
 void printing() {
-  while (SERIAL.available()) {
-    chI = SERIAL.read();
+  while (USART_local.available()) {
+    chI = USART_local.read();
     Serial.print(chI);
   }
 }
 
 void seriAvail() {
   for (int i = 1; i < WEIGHT; i++) {
-      if (SERIAL.available()) {
+      if (USART_local.available()) {
         printing();
-        if (!SERIAL.available()) delay(1);
+        if (!USART_local.available()) delay(1);
     }
   }
 }
@@ -73,13 +73,13 @@ byte reading() {
   ch = Serial.read();   // local keystroke is read
   local_echo();         // echo that character, locally // KLUDGE
 
-  SERIAL.write(ch);     // immediately send it out the UART port
+  USART_local.write(ch);     // immediately send it out the UART port
 
   if (ch == '\r') {
-  while (!SERIAL.available());
+  while (!USART_local.available());
 
     Serial.print("");
-    SERIAL.print("");
+    USART_local.print("");
   }
 
   // ^^ eForth doesn't like to report, unprodded,
@@ -112,7 +112,7 @@ void setup() {
   }
 
   Serial.println ("terminal - based on the Forth-like interpreter");
-  SERIAL.begin(115200); // TX/RX pair
+  USART_local.begin(115200); // TX/RX pair
 }
 
 void loop() {
