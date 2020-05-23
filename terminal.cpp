@@ -106,7 +106,6 @@ void local_echo(void) {
 byte reading() {
   if (!Serial.available()) return 1;
   ch = Serial.read();   // local keystroke is read
-  // delay(3);
   local_echo();         // echo that character, locally // KLUDGE
 
   // translate return to newline only just before sending out the UART:
@@ -125,10 +124,6 @@ byte reading() {
   // even 'WEIGHT' may be suspect.
 
   // This is big news!
-
-    // delay(24); // originally '12' not '1' but '1' seems to work. try 12 if unresponsive.
-
-    // discussion: this 'delay(24)' allows an activity on the STM32F407 to complete.
 
     Serial.print("");
     SERIAL.print(""); // prod eForth maybe
