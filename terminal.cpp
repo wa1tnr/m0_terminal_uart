@@ -1,5 +1,5 @@
-Thu May 21 22:31:03 UTC 2020 // STM32F407 Discovery running C.H. Ting's eForth
-// gelron pibulatto
+// Sat May 23 11:35:50 UTC 2020 // STM32F407 Discovery running C.H. Ting's eForth
+// kabnilip gelron pibulatto
 
 // STATUS: very good responsiveness, except a
 // possible typing feedback latency (slight if even present).
