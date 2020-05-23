@@ -86,8 +86,6 @@ void seriAvail() { // may very well be responsible for the eForth bug
       if (SERIAL.available()) {
         printing();
         if (!SERIAL.available()) delay(1);
-        // delay(1); // makes a huge difference to have this tiny delay
-        // break;
     }
   }
 }
@@ -116,19 +114,12 @@ byte reading() {
 
   // prod eForth:
   if (ch == '\r') {
-    // HERE HERE 21 MAY
-  while (!SERIAL.available()); // new blocking 21 may 2207z
-  // discussion - this infinite while didn't break anything obvious.
-  // seems to resolve the issue nicely.  The delay below (24 atm)
-  // may now be superfluous, and other delays are also now suspect.
-  // even 'WEIGHT' may be suspect.
-
-  // This is big news!
+  while (!SERIAL.available());
 
     Serial.print("");
     SERIAL.print(""); // prod eForth maybe
-    // FINDINGS: more is less - do NOT delay or output will be lost.
   }
+
   // ^^ eForth doesn't like to report, unprodded,
   //    on most (but not all) words.
   //    .S is an exception, for example.
@@ -163,7 +154,6 @@ void setup() {
   }
 
   Serial.println ("terminal - based on the Forth-like interpreter");
-  // delay(100);
   // SERIAL.begin(38400); // TX/RX pair
   // worked well with eForth // SERIAL.begin(115200); // TX/RX pair
   SERIAL.begin(115200); // TX/RX pair
