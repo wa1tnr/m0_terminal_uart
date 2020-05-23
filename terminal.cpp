@@ -25,7 +25,10 @@
 // #define WEIGHT 3400
 // may 21 2221z working with 3400 #define WEIGHT 3400
 // #define WEIGHT 1200
-#define WEIGHT 1800
+// #define WEIGHT 1800
+// 23 May - seems to address a lot, by adding alot of WEIGHT:
+#define WEIGHT 32760
+
 // discussion: less than 1200 created input echo blocking stuff.
 // was necessary to space bar flog to get complete feedback,
 // so this WEIGHT must be > 800 or so (probably 1200 or so).
